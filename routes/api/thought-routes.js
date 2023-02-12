@@ -4,6 +4,9 @@ const { Thought, Reaction} = require('../../models')
 
 //TODO: ROUTE TO GET ALL THOUGHTS
 router.get('/', (req,res)=> {
+    Thought.find({}, (err, thoughts) => {
+        res.status(200).json(thoughts)
+    })
 
 })
 
