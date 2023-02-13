@@ -12,7 +12,16 @@ router.get('/', (req,res)=> {
 
 //TODO: ROUTE TO CREATE A NEW THOUGHT
 router.post('/', (req,res)=> {
-
+    Thought.create({
+        thoughtText: req.body.thoughtText,
+        username: req.body.username
+    }, (err, thought) => {
+        if (err) {
+            res.status(500).json(err)
+        } else {
+            res.status(200).json(true)
+        }
+    })
 });
 
 //TODO: ROUTE TO GET SINGLE THOUGHT BASED ON THOUGHT ID
