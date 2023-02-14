@@ -26,8 +26,16 @@ router.post('/', (req,res)=> {
 
 //TODO: ROUTE TO GET SINGLE THOUGHT BASED ON THOUGHT ID
 router.get('/:thoughtId', (req,res)=> {
-
+    Thought.findOne({
+        id: req.params.thoughtId
+    }, (err, singleThought)=> {
+        if(err) {
+            res.status(500).json(err)
+        } else {
+            res.status(200).json(singleThought)
+        }
 })
+});
 
 //TODO: ROUTE TO UPDATE A THOUGHT
 router.put('/', (req,res)=> {
