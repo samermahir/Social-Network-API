@@ -39,12 +39,29 @@ router.get('/:thoughtId', (req,res)=> {
 
 //TODO: ROUTE TO UPDATE A THOUGHT
 router.put('/', (req,res)=> {
+    Thought.findOneAndUpdate({
+        id: req.params.thoughtId,
+    }, (err, updateThought)=> {
+        if(err) {
+            res.status(500).json(err)
+        } else {
+            res.status(200).json(updateThought)
+        }
+    })
 
-})
+});
 
 //TODO: ROUTE TO DELETE A THOUGHT BASED ON THOUGHT ID
 router.delete('/:thoughtId', (req,res)=> {
-
+    Thought.findOneAndDelete({
+        id: req.params.thoughtId,
+    }, (err, deleteThought)=> {
+        if(err) {
+            res.status(500).json(err)
+        } else {
+            res.status(200).json(deleteThought)
+        }
+    })
 });
 
 //TODO: ROUTE TO ADD REACTION TO A THOUGHT
