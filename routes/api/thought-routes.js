@@ -39,16 +39,20 @@ router.get('/:thoughtId', (req,res)=> {
 
 //TODO: ROUTE TO UPDATE A THOUGHT
 router.put('/', (req,res)=> {
-    Thought.findOneAndUpdate({
-        id: req.params.thoughtId,
-    }, (err, updateThought)=> {
-        if(err) {
-            res.status(500).json(err)
-        } else {
-            res.status(200).json(updateThought)
-        }
-    })
-
+    Thought.findOneAndUpdate(
+    { _id: req.params.thoughtId },
+    { $set: req.body },
+    { runValidators: true, new: true }
+  )
+    .then((thought) =>
+      !thought
+        ? res.status(404).json({ message: 'No thought with this id found!' })
+        : res.json(video)
+    )
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 //TODO: ROUTE TO DELETE A THOUGHT BASED ON THOUGHT ID
