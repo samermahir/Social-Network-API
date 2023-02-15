@@ -72,7 +72,7 @@ router.delete('/:thoughtId', (req,res)=> {
 router.post('/:thoughtId/reactions', (req,res)=> {
     Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $addToSet: { responses: req.body } },
+        { $addToSet: { reactions: req.body } },
         { runValidators: true, new: true }
       )
         .then((thought) =>
@@ -87,7 +87,7 @@ router.post('/:thoughtId/reactions', (req,res)=> {
 //TODO: ROUTE TO DELETE A REACTION ON A THOUGHT
 router.delete('/:thoughtId/reactions/:reactionId', (req,res)=> {
     Thought.findOneAndUpdate(
-        { _id: req.params.videoId },
+        { _id: req.params.thoughtId },
         { $pull: { reactions: { reactionId: req.params.reactionId } } },
         { runValidators: true, new: true }
       )

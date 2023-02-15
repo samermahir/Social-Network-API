@@ -4,6 +4,10 @@ const {User} = require("../../models")
 
 //TODO - ROUTE THAT GETS ALL THE USERS, include friends?
 router.get('/', (req,res)=> {
+    User.find({}, (err, user) => {
+        res.status(200).json(user)
+    })
+
 
 })
 
