@@ -47,7 +47,7 @@ router.put('/', (req,res)=> {
     .then((thought) =>
       !thought
         ? res.status(404).json({ message: 'No thought with this id found!' })
-        : res.json(video)
+        : res.json(thought)
     )
     .catch((err) => {
       console.log(err);
