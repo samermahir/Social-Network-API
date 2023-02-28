@@ -4,9 +4,16 @@ const {User} = require("../../models")
 
 //TODO - ROUTE THAT GETS ALL THE USERS, include friends?
 router.get('/', (req,res)=> {
-    User.find({}, (err, user) => {
+    User.find()
+    .populate('thoughts')
+    .then ((user)=> {
         res.status(200).json(user)
-    })
+    
+    }
+) .catch((err)=> {
+    console.log(err);
+     res.status(500).json(err);
+})
 
 
 })
@@ -32,14 +39,18 @@ router.post('/', (req,res)=> {
 router.get('/:userId', (req,res) => {
     User.findOne({
         id: req.params.userId
-    }, (err, singleUser)=> {
-        if(err) {
-            res.status(500).json(err)
-        } else {
-            res.status(200).json(singleUser)
-        }
-})
-
+    })
+    .populate('thoughts')
+    .populate('friends')
+    .then((user) =>
+      !user
+        ? res.status(404).json({ message: 'No user with this id found!' })
+        : res.json(user)
+    )
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 })
 
 //TODO - ROUTE THAT UPDATES A SINGLE USER
@@ -49,6 +60,8 @@ router.put('/:userId', (req,res)=> {
         { $set: req.body },
         { runValidators: true, new: true }
       )
+        .populate('friends')
+        .populate('thoughts')
         .then((user) =>
           !user
             ? res.status(404).json({ message: 'No user with this id found!' })

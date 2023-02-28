@@ -59,12 +59,14 @@ router.put('/', (req,res)=> {
 router.delete('/:thoughtId', (req,res)=> {
     Thought.findOneAndDelete({
         id: req.params.thoughtId,
-    }, (err, deleteThought)=> {
-        if(err) {
-            res.status(500).json(err)
-        } else {
+    })
+        .then (( deleteThought)=> {
             res.status(200).json(deleteThought)
+        
         }
+    ) .catch((err)=> {
+        console.log(err);
+         res.status(500).json(err);
     })
 });
 
